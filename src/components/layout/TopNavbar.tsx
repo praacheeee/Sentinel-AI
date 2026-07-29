@@ -92,10 +92,11 @@ export const TopNavbar: React.FC<TopNavbarProps> = ({
               <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
             </span>
             <Activity className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-            <span>YOLOv11 Active</span>
+            <span>YOLOv8 Active</span>
           </div>
 
           <div className="h-4 w-px bg-[#30363D] hidden lg:block" />
+
 
           {/* Action Buttons */}
           <div className="flex items-center gap-1.5">

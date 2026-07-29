@@ -26,7 +26,7 @@ const STATUS_CONFIG: Record<
   { label: string; badgeStyle: string; dotStyle: string; icon: React.ElementType }
 > = {
   Operational: {
-    label: "YOLOv11 Operational",
+    label: "YOLOv8 Operational",
     badgeStyle: "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
     dotStyle: "bg-emerald-400",
     icon: Activity,
