@@ -22,3 +22,19 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Python & Virtual Environments
+__pycache__/
+*.py[cod]
+*$py.class
+*.pt
+venv/
+backend/venv/
+.ultralytics/
+backend/ai/.ultralytics/
+Ultralytics/
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example

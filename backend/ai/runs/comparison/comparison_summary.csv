@@ -1,0 +1,8 @@
+image_id,image_name,filename,width,height,defect_category,model_a_detections,model_a_time_ms,model_a_classes,model_b_detections,model_b_time_ms,model_b_classes,overlapping_detections,unique_to_a,unique_to_b
+user_alligator,User Alligator Crack,user_alligator_crack.jpg,430,288,Alligator Crack,0,238.4,None,1,1137.1,Alligator Crack (83.4%),0,0,1
+test1,Test Image 1,test1.jpg.png,643,436,Pothole,4,193.8,Pothole (53.9%); Pothole (48.8%); Pothole (41.2%); Pothole (13.5%),0,1098.5,None,0,4,0
+test2,Test Image 2,test2.jpg.png,972,631,Pothole,2,223.6,Pothole (91.1%); Pothole (11.9%),0,1076.1,None,0,2,0
+test3,Test Image 3,test3.jpg.png,637,634,Longitudinal Crack,1,276.5,Longitudinal Crack (21.2%),0,1619.1,None,0,1,0
+test4,Test Image 4,test4.jpg.png,562,556,Alligator Crack,1,314.6,Alligator Crack (21.6%),1,2041.0,Alligator Crack (69.5%),1,0,0
+test5,Test Image 5,test5.jpg.png,657,415,Pothole / Road Distress,3,249.6,Pothole (55.4%); Pothole (16.9%); Pothole (12.2%),1,1224.5,Alligator Crack (59.3%),2,1,0
+clean_road,Clean Road (Negative Control),clean_road_synthetic.jpg,640,640,None (Clean Road),0,348.3,None,0,1804.1,None,0,0,0

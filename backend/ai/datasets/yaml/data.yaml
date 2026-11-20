@@ -1,0 +1,14 @@
+# Sentinel AI - Road Damage Detection Dataset Configuration
+# Benchmark: RDD2022 (Road Damage Dataset 2022) / Roboflow YOLOv8-YOLO11 format
+
+path: ../datasets/processed  # Root directory of the processed dataset
+train: images/train          # Training images (relative to 'path')
+val: images/val              # Validation images (relative to 'path')
+test: images/test            # Optional test images (relative to 'path')
+
+# 4 Core Classes corresponding to RDD2022 / Sentinel AI standard:
+names:
+  0: Longitudinal Crack
+  1: Transverse Crack
+  2: Alligator Crack
+  3: Pothole

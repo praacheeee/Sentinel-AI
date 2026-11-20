@@ -1,0 +1,10 @@
+# Sentinel AI - Single-Class Pothole Dataset Configuration
+# Generated from RDD2022 dataset filtered strictly for Potholes
+
+path: ../pothole_single_class
+train: images/train
+val: images/val
+test: images/test
+
+nc: 1
+names: ['pothole']

@@ -1,0 +1,21 @@
+image_name,filename,width,height,model_name,architecture,inference_time_ms,detection_id,raw_class_name,normalized_class_name,raw_confidence_pct,box_x1,box_y1,box_x2,box_y2,comparison_category,notes
+User Alligator Crack,user_alligator_crack.jpg,430,288,Model A (best.pt),YOLOv8n,238.4,None,None,None,0.0,0,0,0,0,No Detection,Potential Missed Detection
+User Alligator Crack,user_alligator_crack.jpg,430,288,Model B (yolov8m_rdd2022.pt),YOLOv8m,1137.1,B_1,alligator_crack,Alligator Crack,83.36,0.0,0.0,430.0,288.0,Unique to Model B,High confidence alligator crack
+Test Image 1,test1.jpg.png,643,436,Model A (best.pt),YOLOv8n,193.8,A_1,Pothole,Pothole,53.92,188.5,193.2,512.2,295.1,Unique to Model A,Consistent with pothole dataset
+Test Image 1,test1.jpg.png,643,436,Model A (best.pt),YOLOv8n,193.8,A_2,Pothole,Pothole,48.78,189.5,203.8,391.4,274.6,Unique to Model A,Consistent with pothole dataset
+Test Image 1,test1.jpg.png,643,436,Model A (best.pt),YOLOv8n,193.8,A_3,Pothole,Pothole,41.19,387.1,205.0,518.8,254.4,Unique to Model A,Consistent with pothole dataset
+Test Image 1,test1.jpg.png,643,436,Model A (best.pt),YOLOv8n,193.8,A_4,Pothole,Pothole,13.46,290.9,199.7,522.0,262.7,Unique to Model A,Consistent with pothole dataset
+Test Image 1,test1.jpg.png,643,436,Model B (yolov8m_rdd2022.pt),YOLOv8m,1098.5,None,None,None,0.0,0,0,0,0,No Detection,Potential Missed Detection
+Test Image 2,test2.jpg.png,972,631,Model A (best.pt),YOLOv8n,223.6,A_1,Pothole,Pothole,91.1,297.4,305.0,611.0,468.2,Unique to Model A,Consistent with pothole dataset
+Test Image 2,test2.jpg.png,972,631,Model A (best.pt),YOLOv8n,223.6,A_2,Pothole,Pothole,11.91,328.9,311.2,570.6,389.1,Unique to Model A,Consistent with pothole dataset
+Test Image 2,test2.jpg.png,972,631,Model B (yolov8m_rdd2022.pt),YOLOv8m,1076.1,None,None,None,0.0,0,0,0,0,No Detection,Potential Missed Detection
+Test Image 3,test3.jpg.png,637,634,Model A (best.pt),YOLOv8n,276.5,A_1,Longitudinal,Longitudinal Crack,21.2,583.3,471.7,634.6,634.0,Unique to Model A,
+Test Image 3,test3.jpg.png,637,634,Model B (yolov8m_rdd2022.pt),YOLOv8m,1619.1,None,None,None,0.0,0,0,0,0,No Detection,Potential Missed Detection
+Test Image 4,test4.jpg.png,562,556,Model A (best.pt),YOLOv8n,314.6,A_1,Alligator,Alligator Crack,21.57,3.2,0.0,562.0,556.0,Agreement (Both Models),
+Test Image 4,test4.jpg.png,562,556,Model B (yolov8m_rdd2022.pt),YOLOv8m,2041.0,B_1,alligator_crack,Alligator Crack,69.51,0.0,5.2,562.0,556.0,Agreement (Both Models),High confidence alligator crack
+Test Image 5,test5.jpg.png,657,415,Model A (best.pt),YOLOv8n,249.6,A_1,Pothole,Pothole,55.36,280.4,190.0,383.7,402.1,Agreement (Both Models),Consistent with pothole dataset
+Test Image 5,test5.jpg.png,657,415,Model A (best.pt),YOLOv8n,249.6,A_2,Pothole,Pothole,16.87,307.0,246.3,371.4,311.8,Unique to Model A,Consistent with pothole dataset
+Test Image 5,test5.jpg.png,657,415,Model A (best.pt),YOLOv8n,249.6,A_3,Pothole,Pothole,12.22,286.9,190.2,369.1,310.0,Agreement (Both Models),Consistent with pothole dataset
+Test Image 5,test5.jpg.png,657,415,Model B (yolov8m_rdd2022.pt),YOLOv8m,1224.5,B_1,alligator_crack,Alligator Crack,59.34,284.3,188.7,378.0,401.7,Agreement (Both Models),High confidence alligator crack
+Clean Road (Negative Control),clean_road_synthetic.jpg,640,640,Model A (best.pt),YOLOv8n,348.3,None,None,None,0.0,0,0,0,0,No Detection,True Negative (Clean Road)
+Clean Road (Negative Control),clean_road_synthetic.jpg,640,640,Model B (yolov8m_rdd2022.pt),YOLOv8m,1804.1,None,None,None,0.0,0,0,0,0,No Detection,True Negative (Clean Road)

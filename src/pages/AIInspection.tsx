@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { motion } from "framer-motion";
 import { Sparkles } from "lucide-react";
 
 import DashboardHeader from "@/components/common/DashboardHeader";
@@ -10,26 +11,29 @@ export const AIInspection: React.FC = () => {
   const [imageFile, setImageFile] = useState<File | null>(null);
 
   return (
-    <main className="min-h-screen bg-[#0D1117] text-[#F0F6FC] p-4 sm:p-6 lg:p-8">
-      <div className="max-w-4xl mx-auto flex flex-col gap-6">
-        {/* Page Header */}
-        <DashboardHeader
-          title="AI Infrastructure Damage Detection"
-          subtitle="Upload an infrastructure image and let Sentinel AI detect possible defects."
-          icon={Sparkles}
-        />
+    <motion.div
+      initial={{ opacity: 0, y: 8 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3, ease: "easeOut" }}
+      className="space-y-6 w-full max-w-5xl mx-auto pb-12"
+    >
+      {/* Page Header */}
+      <DashboardHeader
+        title="AI Pothole Inspection Studio"
+        subtitle="Upload or select a roadway image for real-time neural surface defect detection, bounding box localization, and provisional severity triage."
+        icon={Sparkles}
+      />
 
-        {/* Upload Component Section */}
-        <SectionContainer>
-          <ImageUpload onImageSelected={setImageFile} />
-        </SectionContainer>
+      {/* Upload Component Section */}
+      <SectionContainer>
+        <ImageUpload onImageSelected={setImageFile} />
+      </SectionContainer>
 
-        {/* Damage Analyzer Component Section */}
-        <SectionContainer>
-          <DamageAnalyzer imageFile={imageFile} />
-        </SectionContainer>
-      </div>
-    </main>
+      {/* Damage Analyzer Component Section */}
+      <SectionContainer>
+        <DamageAnalyzer imageFile={imageFile} />
+      </SectionContainer>
+    </motion.div>
   );
 };
 

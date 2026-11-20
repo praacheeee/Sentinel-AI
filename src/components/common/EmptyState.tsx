@@ -25,22 +25,22 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
       className={`flex flex-col items-center justify-center text-center py-12 px-4 ${className}`}
     >
       {Icon && (
-        <div className="p-4 rounded-full bg-[#21262D] border border-[#30363D] text-[#8B949E] mb-4 shrink-0">
+        <div className="p-4 rounded-2xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-400 mb-4 shrink-0 shadow-xs">
           <Icon className="w-8 h-8 text-current" aria-hidden="true" />
         </div>
       )}
 
-      <h3 className="text-lg font-bold text-[#F0F6FC] tracking-tight">
+      <h3 className="text-base font-bold text-slate-900 dark:text-white tracking-tight">
         {title}
       </h3>
 
       {description && (
-        <p className="text-sm text-[#8B949E] mt-1.5 max-w-[420px] leading-relaxed">
+        <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 max-w-md leading-relaxed">
           {description}
         </p>
       )}
 
-      {action && <div className="mt-6 flex justify-center">{action}</div>}
+      {action && <div className="mt-5 flex justify-center">{action}</div>}
     </motion.div>
   );
 };

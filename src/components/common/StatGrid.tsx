@@ -5,17 +5,11 @@ import MetricCard from "./MetricCard";
 import type { StatItem } from "@/types/dashboard";
 
 export interface StatGridProps {
-  /** List of metric items to render in the grid */
   metrics: StatItem[];
-
-  /** Optional loading override that renders skeletons across all items */
   loading?: boolean;
-
-  /** Optional custom grid container styles */
   className?: string;
 }
 
-// Framer Motion Animation Variants for Staggered Grid Reveal
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
@@ -27,8 +21,8 @@ const containerVariants = {
   },
 };
 
-const itemVariants = {
-  hidden: { opacity: 0, y: 12 },
+const itemVariants: any = {
+  hidden: { opacity: 0, y: 10 },
   visible: {
     opacity: 1,
     y: 0,
@@ -44,11 +38,10 @@ export const StatGrid: React.FC<StatGridProps> = ({
   loading = false,
   className = "",
 }) => {
-  // Empty State Guard
   if (!metrics.length && !loading) {
     return (
-      <div className="flex items-center justify-center rounded-xl border border-[#30363D] bg-[#161B22] p-10 text-sm text-gray-400 select-none w-full">
-        No metrics available.
+      <div className="flex items-center justify-center rounded-2xl border border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-[#0E1524]/80 p-8 text-xs font-mono text-slate-400 select-none w-full">
+        No telemetry metrics available.
       </div>
     );
   }
@@ -58,7 +51,7 @@ export const StatGrid: React.FC<StatGridProps> = ({
       variants={containerVariants}
       initial="hidden"
       animate="visible"
-      className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 w-full ${className}`}
+      className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 w-full ${className}`}
     >
       {metrics.map((metric) => (
         <motion.div key={metric.id} variants={itemVariants}>

@@ -9,15 +9,11 @@ export interface ColumnDef<T> {
 }
 
 export interface DataTableProps<T> {
-  /** Array of data records */
   data: T[];
-  /** Column definitions */
   columns: ColumnDef<T>[];
-  /** Optional custom container CSS classes */
   className?: string;
 }
 
-// Framer Motion Animation Variants for Table Rows
 const tableContainerVariants = {
   hidden: { opacity: 0 },
   visible: {
@@ -29,7 +25,7 @@ const tableContainerVariants = {
   },
 };
 
-const rowVariants = {
+const rowVariants: any = {
   hidden: { opacity: 0, y: 4 },
   visible: {
     opacity: 1,
@@ -45,11 +41,11 @@ export function DataTable<T extends Record<string, unknown>>({
 }: DataTableProps<T>): React.ReactElement {
   return (
     <div
-      className={`w-full overflow-x-auto rounded-xl border border-[#30363D] bg-[#161B22] shadow-lg ${className}`}
+      className={`w-full overflow-x-auto rounded-2xl border border-slate-200/90 dark:border-slate-800/80 bg-white/80 dark:bg-[#0E1524]/80 backdrop-blur-md shadow-xs ${className}`}
     >
       <table className="w-full text-left border-collapse text-xs select-none">
         {/* Sticky Header */}
-        <thead className="sticky top-0 z-10 bg-[#0D1117] border-b border-[#30363D] text-[#9CA3AF] font-mono uppercase tracking-wider text-[11px]">
+        <thead className="sticky top-0 z-10 bg-slate-50/90 dark:bg-slate-900/90 border-b border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400 font-mono uppercase tracking-wider text-[11px]">
           <tr>
             {columns.map((col, idx) => {
               const key = col.id || (col.accessorKey as string) || `col-${idx}`;
@@ -57,7 +53,7 @@ export function DataTable<T extends Record<string, unknown>>({
                 <th
                   key={key}
                   scope="col"
-                  className="px-4 py-3 font-semibold whitespace-nowrap"
+                  className="px-5 py-3.5 font-semibold whitespace-nowrap"
                 >
                   {col.header}
                 </th>
@@ -71,15 +67,15 @@ export function DataTable<T extends Record<string, unknown>>({
           variants={tableContainerVariants}
           initial="hidden"
           animate="visible"
-          className="divide-y divide-[#30363D]/50 text-gray-200"
+          className="divide-y divide-slate-100 dark:divide-slate-800/60 text-slate-700 dark:text-slate-200"
         >
           {!data.length ? (
             <tr>
               <td
                 colSpan={columns.length}
-                className="px-4 py-8 text-center text-gray-400 font-mono text-xs"
+                className="px-5 py-8 text-center text-slate-400 font-mono text-xs"
               >
-                No data available.
+                No telemetry records available.
               </td>
             </tr>
           ) : (
@@ -91,13 +87,14 @@ export function DataTable<T extends Record<string, unknown>>({
                 <motion.tr
                   key={rowKey}
                   variants={rowVariants}
-                  className="even:bg-[#0D1117]/30 hover:bg-[#21262D]/60 transition-colors duration-150"
+                  className="hover:bg-slate-50/80 dark:hover:bg-slate-800/40 transition-colors duration-150"
                 >
                   {columns.map((col, colIndex) => {
                     const cellKey =
                       col.id || (col.accessorKey as string) || `cell-${colIndex}`;
 
                     let cellValue: React.ReactNode = null;
+
                     if (col.cell) {
                       cellValue = col.cell(row);
                     } else if (col.accessorKey) {
@@ -107,7 +104,7 @@ export function DataTable<T extends Record<string, unknown>>({
                     return (
                       <td
                         key={cellKey}
-                        className="px-4 py-3 text-xs leading-relaxed"
+                        className="px-5 py-3.5 text-xs leading-relaxed"
                       >
                         {cellValue}
                       </td>

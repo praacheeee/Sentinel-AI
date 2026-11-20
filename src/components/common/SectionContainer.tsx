@@ -12,10 +12,10 @@ export const SectionContainer: React.FC<SectionContainerProps> = ({
 }) => {
   return (
     <motion.section
-      initial={{ opacity: 0, y: 12 }}
+      initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3, ease: "easeOut" }}
-      className={`bg-[#161B22] border border-[#30363D] rounded-2xl p-6 shadow-lg shadow-black/20 ${className}`}
+      transition={{ duration: 0.25, ease: "easeOut" }}
+      className={`bg-white/80 dark:bg-[#0E1524]/80 backdrop-blur-md border border-slate-200/90 dark:border-slate-800/80 rounded-2xl p-6 shadow-xs ${className}`}
     >
       {children}
     </motion.section>

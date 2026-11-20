@@ -1,45 +1,52 @@
 import React, { useMemo } from "react";
 import { motion } from "framer-motion";
-import { Calendar, RefreshCw, Cpu, Activity, AlertTriangle, ShieldX } from "lucide-react";
+import {
+  Calendar,
+  RefreshCw,
+  Cpu,
+  Activity,
+  AlertTriangle,
+  ShieldX,
+} from "lucide-react";
 
 export type SystemStatus = "Operational" | "Degraded" | "Offline";
 
 export interface DashboardHeaderProps {
-  /** Primary page or view title */
   title: string;
-  /** Secondary subtitle or view summary description */
   subtitle?: string;
-  /** ISO string or pre-formatted timestamp for last AI engine sync */
+  icon?: React.ElementType;
   lastUpdated?: string;
-  /** Overall operational state of AI system nodes */
   status?: SystemStatus;
-  /** Parent-controlled refreshing indicator state */
   refreshing?: boolean;
-  /** Callback fired when user triggers manual telemetry refresh */
   onRefresh?: () => void;
-  /** Optional custom container CSS classes */
   className?: string;
 }
 
 const STATUS_CONFIG: Record<
   SystemStatus,
-  { label: string; badgeStyle: string; dotStyle: string; icon: React.ElementType }
+  {
+    label: string;
+    badgeStyle: string;
+    dotStyle: string;
+    icon: React.ElementType;
+  }
 > = {
   Operational: {
-    label: "YOLOv8 Operational",
-    badgeStyle: "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
-    dotStyle: "bg-emerald-400",
+    label: "YOLOv8 Engine Operational",
+    badgeStyle:
+      "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20",
+    dotStyle: "bg-emerald-500",
     icon: Activity,
   },
   Degraded: {
-    label: "System Degraded",
-    badgeStyle: "bg-amber-500/10 text-amber-400 border-amber-500/20",
-    dotStyle: "bg-amber-400",
+    label: "Telemetry Degraded",
+    badgeStyle: "bg-amber-500/10 text-amber-500 border-amber-500/20",
+    dotStyle: "bg-amber-500",
     icon: AlertTriangle,
   },
   Offline: {
-    label: "AI Engine Offline",
-    badgeStyle: "bg-rose-500/10 text-rose-400 border-rose-500/20",
+    label: "Engine Disconnected",
+    badgeStyle: "bg-rose-500/10 text-rose-500 border-rose-500/20",
     dotStyle: "bg-rose-500",
     icon: ShieldX,
   },
@@ -48,17 +55,17 @@ const STATUS_CONFIG: Record<
 export const DashboardHeader: React.FC<DashboardHeaderProps> = ({
   title,
   subtitle,
+  icon: HeaderIcon,
   lastUpdated = "Just now",
   status = "Operational",
   refreshing = false,
   onRefresh,
   className = "",
 }) => {
-  // Memoized date string formatted as "Tue, 21 Jul 2026"
   const formattedDate = useMemo(() => {
-    return new Date().toLocaleDateString("en-GB", {
+    return new Date().toLocaleDateString("en-US", {
       weekday: "short",
-      day: "2-digit",
+      day: "numeric",
       month: "short",
       year: "numeric",
     });
@@ -69,21 +76,38 @@ export const DashboardHeader: React.FC<DashboardHeaderProps> = ({
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: -8 }}
+      initial={{ opacity: 0, y: -6 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.25, ease: "easeOut" }}
-      className={`flex flex-col md:flex-row md:items-center justify-between gap-4 p-5 rounded-xl bg-[#161B22] border border-[#30363D] shadow-lg select-none ${className}`}
+      className={`
+        relative overflow-hidden
+        flex flex-col md:flex-row md:items-center justify-between gap-4
+        p-6 rounded-2xl
+        bg-white/80 dark:bg-[#0E1524]/80 backdrop-blur-md
+        border border-slate-200/90 dark:border-slate-800/80
+        shadow-sm hover:shadow-md transition-shadow
+        select-none ${className}
+      `}
     >
-      {/* Title & Subtitle Area */}
-      <div className="flex flex-col gap-1">
+      {/* Ambient Top Glow Accent */}
+      <div className="pointer-events-none absolute -top-12 left-1/4 w-72 h-20 bg-emerald-500/10 dark:bg-emerald-500/15 blur-2xl" />
+
+      {/* Title & Subtitle */}
+      <div className="flex flex-col gap-1.5 relative z-10">
         <div className="flex items-center gap-3 flex-wrap">
-          <h1 className="text-xl md:text-2xl font-bold font-mono tracking-tight text-[#F3F4F6]">
+          {HeaderIcon && (
+            <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 shadow-xs">
+              <HeaderIcon className="w-5 h-5" />
+            </div>
+          )}
+
+          <h1 className="text-xl md:text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
             {title}
           </h1>
 
-          {/* AI System Status Badge */}
+          {/* AI System Status */}
           <div
-            className={`inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full border text-xs font-mono font-medium ${statusMeta.badgeStyle}`}
+            className={`inline-flex items-center gap-2 px-3 py-1 rounded-full border text-xs font-mono font-medium shadow-xs ${statusMeta.badgeStyle}`}
           >
             <span className="relative flex h-2 w-2">
               <span
@@ -93,45 +117,64 @@ export const DashboardHeader: React.FC<DashboardHeaderProps> = ({
                 className={`relative inline-flex rounded-full h-2 w-2 ${statusMeta.dotStyle}`}
               />
             </span>
+
             <StatusIcon className="w-3.5 h-3.5 shrink-0" />
             <span>{statusMeta.label}</span>
           </div>
         </div>
 
         {subtitle && (
-          <p className="text-xs md:text-sm text-[#9CA3AF] max-w-2xl">
+          <p className="text-xs md:text-sm text-slate-600 dark:text-slate-400 max-w-2xl leading-relaxed">
             {subtitle}
           </p>
         )}
       </div>
 
-      {/* Right Controls Area: Date, Sync Time, and Refresh */}
-      <div className="flex items-center gap-3 self-start md:self-center flex-wrap shrink-0">
-        {/* Telemetry Metadata Pills */}
-        <div className="flex items-center gap-3 px-3 py-1.5 rounded-lg bg-[#0D1117] border border-[#30363D] text-xs font-mono text-[#9CA3AF]">
+      {/* Right Controls */}
+      <div className="flex items-center gap-3 self-start md:self-center flex-wrap shrink-0 relative z-10">
+        {/* Date / Sync Telemetry Pill */}
+        <div
+          className="
+            flex items-center gap-3 px-3.5 py-2 rounded-xl
+            bg-slate-100/70 dark:bg-slate-900/60
+            border border-slate-200 dark:border-slate-800
+            text-xs font-mono text-slate-600 dark:text-slate-400
+            shadow-xs
+          "
+        >
           <div className="flex items-center gap-1.5">
-            <Calendar className="w-3.5 h-3.5 text-gray-400 shrink-0" />
+            <Calendar className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500 shrink-0" />
             <span>{formattedDate}</span>
           </div>
 
-          <span className="text-[#30363D]">|</span>
+          <span className="text-slate-300 dark:text-slate-700">|</span>
 
           <div className="flex items-center gap-1.5">
-            <Cpu className="w-3.5 h-3.5 text-[#A8E6CF] shrink-0" />
+            <Cpu className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
             <span>Sync: {lastUpdated}</span>
           </div>
         </div>
 
-        {/* Manual Telemetry Refresh Button */}
+        {/* Manual Refresh Trigger */}
         <motion.button
-          whileTap={{ scale: 0.95 }}
+          whileTap={{ scale: 0.92 }}
           onClick={onRefresh}
           disabled={refreshing}
           aria-label="Refresh telemetry data"
-          className="flex items-center justify-center p-2 rounded-lg bg-[#0D1117] border border-[#30363D] text-gray-300 hover:text-white hover:border-[#A8E6CF] transition-colors focus:outline-none focus:ring-2 focus:ring-[#A8E6CF]/50 disabled:opacity-50"
+          className="
+            flex items-center justify-center p-2.5 rounded-xl
+            bg-slate-100/70 dark:bg-slate-900/60
+            border border-slate-200 dark:border-slate-800
+            text-slate-600 dark:text-slate-300
+            hover:text-emerald-600 dark:hover:text-emerald-400
+            hover:border-emerald-500/40
+            transition-all cursor-pointer shadow-xs
+            focus:outline-none focus:ring-2 focus:ring-emerald-500/30
+            disabled:opacity-50
+          "
         >
           <RefreshCw
-            className={`w-4 h-4 text-[#A8E6CF] ${
+            className={`w-4 h-4 text-emerald-500 ${
               refreshing ? "animate-spin" : ""
             }`}
           />

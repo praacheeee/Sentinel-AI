@@ -6,33 +6,22 @@ export type MetricTrend = "up" | "down" | "neutral";
 export type MetricStatus = "healthy" | "warning" | "critical";
 
 export interface MetricCardProps {
-  /** Small category title / label */
   title: string;
-  /** Primary numeric or textual metric value */
   value: string | number;
-  /** Optional secondary subtitle or contextual note */
   subtitle?: string;
-  /** Optional Lucide icon component */
   icon?: LucideIcon;
-  /** Optional direction for trend indicator */
   trend?: MetricTrend;
-  /** Optional trend percentage or change descriptor (e.g. "+12.4%") */
   trendValue?: string;
-  /** Optional measurement unit suffix (e.g. "ms", "%", "nodes") */
   unit?: string;
-  /** Optional loading skeleton state */
   loading?: boolean;
-  /** Optional system node status indicator */
   status?: MetricStatus;
-  /** Optional custom class names */
   className?: string;
-  /** Optional click handler for interactive card filtering */
   onClick?: () => void;
 }
 
 const STATUS_CONFIG: Record<MetricStatus, { color: string; label: string }> = {
-  healthy: { color: "bg-emerald-400", label: "System Operational" },
-  warning: { color: "bg-amber-400", label: "Warning Level" },
+  healthy: { color: "bg-emerald-500", label: "System Operational" },
+  warning: { color: "bg-amber-500", label: "Warning Level" },
   critical: { color: "bg-rose-500", label: "Critical Condition" },
 };
 
@@ -49,23 +38,21 @@ export const MetricCard: React.FC<MetricCardProps> = ({
   className = "",
   onClick,
 }) => {
-  // Render Loading Skeleton State
   if (loading) {
     return (
       <div
-        className={`relative flex flex-col justify-between p-5 rounded-xl bg-[#161B22] border border-[#30363D] shadow-lg animate-pulse min-h-[140px] ${className}`}
+        className={`relative flex flex-col justify-between p-5 rounded-2xl bg-white/70 dark:bg-[#0E1524]/70 border border-slate-200 dark:border-slate-800 animate-pulse min-h-[140px] ${className}`}
         aria-busy="true"
         aria-label={`Loading metric for ${title}`}
       >
         <div className="flex items-center justify-between">
-          <div className="h-3.5 w-24 bg-[#30363D] rounded" />
-          <div className="h-8 w-8 bg-[#30363D] rounded-lg" />
+          <div className="h-3.5 w-24 bg-slate-200 dark:bg-slate-800 rounded" />
+          <div className="h-8 w-8 bg-slate-200 dark:bg-slate-800 rounded-xl" />
         </div>
         <div className="my-3 flex items-baseline gap-2">
-          <div className="h-8 w-28 bg-[#30363D] rounded" />
-          <div className="h-4 w-10 bg-[#30363D] rounded" />
+          <div className="h-8 w-28 bg-slate-200 dark:bg-slate-800 rounded" />
         </div>
-        <div className="h-3 w-36 bg-[#30363D] rounded" />
+        <div className="h-3 w-36 bg-slate-200 dark:bg-slate-800 rounded" />
       </div>
     );
   }
@@ -74,24 +61,24 @@ export const MetricCard: React.FC<MetricCardProps> = ({
     if (!trend) return null;
     switch (trend) {
       case "up":
-        return <TrendingUp className="w-3.5 h-3.5 text-emerald-400 shrink-0" />;
+        return <TrendingUp className="w-3 h-3 text-emerald-500 shrink-0" />;
       case "down":
-        return <TrendingDown className="w-3.5 h-3.5 text-rose-400 shrink-0" />;
+        return <TrendingDown className="w-3 h-3 text-rose-500 shrink-0" />;
       case "neutral":
       default:
-        return <Minus className="w-3.5 h-3.5 text-gray-400 shrink-0" />;
+        return <Minus className="w-3 h-3 text-slate-400 shrink-0" />;
     }
   };
 
   const getTrendBadgeStyles = () => {
     switch (trend) {
       case "up":
-        return "text-emerald-400 bg-emerald-500/10 border-emerald-500/20";
+        return "text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 border-emerald-500/20";
       case "down":
-        return "text-rose-400 bg-rose-500/10 border-rose-500/20";
+        return "text-rose-600 dark:text-rose-400 bg-rose-500/10 border-rose-500/20";
       case "neutral":
       default:
-        return "text-gray-400 bg-gray-500/10 border-gray-500/20";
+        return "text-slate-600 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 border-slate-200 dark:border-slate-700";
     }
   };
 
@@ -100,11 +87,10 @@ export const MetricCard: React.FC<MetricCardProps> = ({
       tabIndex={0}
       onClick={onClick}
       whileHover={{
-        y: -4,
-        scale: 1.015,
+        y: -3,
         transition: { duration: 0.15, ease: "easeOut" },
       }}
-      className={`group relative flex flex-col justify-between p-5 rounded-xl bg-[#161B22] border border-[#30363D] hover:border-[#A8E6CF]/40 hover:shadow-xl hover:shadow-[#A8E6CF]/5 focus:outline-none focus:ring-2 focus:ring-[#A8E6CF]/50 transition-all duration-200 select-none overflow-hidden cursor-pointer ${className}`}
+      className={`group relative flex flex-col justify-between p-5 rounded-2xl bg-white/80 dark:bg-[#0E1524]/80 backdrop-blur-md border border-slate-200/90 dark:border-slate-800/80 hover:border-emerald-500/40 hover:shadow-lg hover:shadow-emerald-500/5 transition-all duration-200 select-none overflow-hidden cursor-pointer ${className}`}
       role="region"
       aria-label={`${title} Metric Card`}
     >
@@ -124,32 +110,32 @@ export const MetricCard: React.FC<MetricCardProps> = ({
               />
             </span>
           )}
-          <span className="text-xs font-semibold tracking-wider text-gray-400 uppercase font-mono truncate">
+          <span className="text-[11px] font-semibold tracking-wider text-slate-500 dark:text-slate-400 uppercase font-mono truncate">
             {title}
           </span>
         </div>
 
         {Icon && (
-          <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-[#0D1117] border border-[#30363D] text-gray-400 group-hover:text-[#A8E6CF] group-hover:border-[#A8E6CF]/30 transition-colors shrink-0">
+          <div className="flex items-center justify-center w-8 h-8 rounded-xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-500 group-hover:text-emerald-500 group-hover:border-emerald-500/30 transition-colors shrink-0">
             <Icon className="w-4 h-4" />
           </div>
         )}
       </div>
 
       {/* Center Row: Primary Metric Display */}
-      <div className="my-2.5 flex items-baseline gap-1.5 flex-wrap">
-        <span className="text-2xl lg:text-3xl font-bold font-mono tracking-tight text-[#F3F4F6] break-all">
+      <div className="my-2 flex items-baseline gap-1.5 flex-wrap">
+        <span className="text-2xl lg:text-3xl font-bold font-mono tracking-tight text-slate-900 dark:text-white break-all">
           {value}
         </span>
         {unit && (
-          <span className="text-xs font-medium font-mono text-[#9CA3AF]">
+          <span className="text-xs font-medium font-mono text-slate-500 dark:text-slate-400">
             {unit}
           </span>
         )}
       </div>
 
       {/* Footer Row: Trend Badge and Subtitle */}
-      <div className="flex items-center justify-between gap-2 text-xs">
+      <div className="flex items-center justify-between gap-2 text-xs pt-1">
         {trendValue && (
           <div
             className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full border text-[11px] font-mono font-medium ${getTrendBadgeStyles()}`}
@@ -160,7 +146,7 @@ export const MetricCard: React.FC<MetricCardProps> = ({
         )}
 
         {subtitle && (
-          <span className="text-[11px] text-[#9CA3AF] truncate ml-auto">
+          <span className="text-[11px] text-slate-500 dark:text-slate-400 truncate ml-auto">
             {subtitle}
           </span>
         )}

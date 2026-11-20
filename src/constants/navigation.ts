@@ -1,10 +1,8 @@
 import {
   LayoutDashboard,
-  PlusCircle,
-  AlertTriangle,
-  BarChart3,
-  Settings,
   Brain,
+  FileText,
+  BarChart3,
   type LucideIcon,
 } from "lucide-react";
 
@@ -15,6 +13,7 @@ export interface NavItemConfig {
   label: string;
   path: RoutePath;
   icon: LucideIcon;
+  badge?: string;
 }
 
 export const NAV_ITEMS: NavItemConfig[] = [
@@ -25,33 +24,22 @@ export const NAV_ITEMS: NavItemConfig[] = [
     icon: LayoutDashboard,
   },
   {
-    id: "new-incident",
-    label: "New Incident",
-    path: ROUTES.NEW_INCIDENT,
-    icon: PlusCircle,
-  },
-  {
     id: "ai-inspection",
     label: "AI Inspection",
     path: ROUTES.AI_INSPECTION,
     icon: Brain,
+    badge: "YOLOv8",
   },
   {
-    id: "incidents",
-    label: "Incidents",
-    path: ROUTES.INCIDENTS,
-    icon: AlertTriangle,
+    id: "incident-report",
+    label: "Inspection Reports",
+    path: ROUTES.INCIDENT_REPORT,
+    icon: FileText,
   },
   {
-    id: "insights",
+    id: "city-insights",
     label: "City Insights",
     path: ROUTES.CITY_INSIGHTS,
     icon: BarChart3,
-  },
-  {
-    id: "settings",
-    label: "Settings",
-    path: ROUTES.SETTINGS,
-    icon: Settings,
   },
 ];

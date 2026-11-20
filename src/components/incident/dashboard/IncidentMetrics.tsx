@@ -1,8 +1,7 @@
 import React from "react";
 import type { LucideIcon } from "lucide-react";
 
-import MetricCard from "@/components/common/MetricCard";
-import StatGrid from "@/components/common/StatGrid";
+import MetricCard, { type MetricTrend } from "@/components/common/MetricCard";
 import EmptyState from "@/components/common/EmptyState";
 
 export interface MetricItem {
@@ -37,11 +36,26 @@ export const IncidentMetrics: React.FC<IncidentMetricsProps> = ({
   }
 
   return (
-    <StatGrid className={className}>
-      {metrics.map(({ id, ...metricProps }) => (
-        <MetricCard key={id} {...metricProps} />
-      ))}
-    </StatGrid>
+    <div className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 ${className}`}>
+      {metrics.map((item) => {
+        const trendDirection: MetricTrend | undefined = item.trend
+          ? item.trend.positive
+            ? "up"
+            : "down"
+          : undefined;
+
+        return (
+          <MetricCard
+            key={item.id}
+            title={item.title}
+            value={item.value}
+            icon={item.icon}
+            trend={trendDirection}
+            trendValue={item.trend?.value}
+          />
+        );
+      })}
+    </div>
   );
 };
 
