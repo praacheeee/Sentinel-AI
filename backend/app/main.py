@@ -7,9 +7,10 @@ app = FastAPI(
     version="1.0.0"
 )
 
+# Allow local dev, Vercel deployments, and custom production domains
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "http://127.0.0.1:5173"],
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -23,4 +24,11 @@ def root():
     return {
         "message": "Sentinel AI Backend Running",
         "status": "healthy"
+    }
+
+
+@app.get("/healthz")
+def healthz():
+    return {
+        "status": "ok"
     }

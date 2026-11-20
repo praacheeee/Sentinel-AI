@@ -84,6 +84,10 @@ const getRecommendation = (
   return `Schedule prompt maintenance for identified ${damageType.toLowerCase()} to restore roadway serviceability.`;
 };
 
+const API_BASE =
+  (import.meta.env.VITE_API_URL as string | undefined)?.replace(/\/$/, "") ||
+  "http://127.0.0.1:8000";
+
 export const DamageAnalyzer: React.FC<DamageAnalyzerProps> = ({
   imageFile,
 }) => {
@@ -158,7 +162,7 @@ export const DamageAnalyzer: React.FC<DamageAnalyzerProps> = ({
       formData.append("file", imageFile);
 
       // Invoke real YOLO backend endpoint
-      const response = await fetch("http://127.0.0.1:8000/predict", {
+      const response = await fetch(`${API_BASE}/predict`, {
         method: "POST",
         body: formData,
       });
@@ -236,7 +240,7 @@ export const DamageAnalyzer: React.FC<DamageAnalyzerProps> = ({
       setProgress(0);
       setError(
         err instanceof Error
-          ? `${err.message}. Ensure the FastAPI backend is online at http://127.0.0.1:8000.`
+          ? `${err.message}. Ensure the FastAPI backend is online at ${API_BASE}.`
           : "Unable to connect to the AI backend."
       );
     }

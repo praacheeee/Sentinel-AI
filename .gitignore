@@ -28,6 +28,7 @@ __pycache__/
 *.py[cod]
 *$py.class
 *.pt
+!backend/ai/models/best.pt
 venv/
 backend/venv/
 .ultralytics/
