@@ -1,6 +1,10 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { saveInspection } from "@/utils/inspectionHistory";
 import {
+  optimizeImageForInference,
+  type ImageOptimizationMeta,
+} from "@/utils/imageOptimizer";
+import {
   Upload,
   Loader2,
   AlertTriangle,
@@ -96,6 +100,7 @@ export const DamageAnalyzer: React.FC<DamageAnalyzerProps> = ({
   const [stageIndex, setStageIndex] = useState(0);
   const [error, setError] = useState<string | null>(null);
   const [showBoundingBoxes, setShowBoundingBoxes] = useState(true);
+  const [optMeta, setOptMeta] = useState<ImageOptimizationMeta | null>(null);
 
   // Real backend detections
   const [detections, setDetections] = useState<DetectionItem[]>([]);
@@ -130,6 +135,7 @@ export const DamageAnalyzer: React.FC<DamageAnalyzerProps> = ({
     setAnalysisResult(null);
     setDetections([]);
     setError(null);
+    setOptMeta(null);
   }, [imageFile]);
 
   const handleStartAnalysis = async () => {
@@ -158,8 +164,13 @@ export const DamageAnalyzer: React.FC<DamageAnalyzerProps> = ({
     }, 100);
 
     try {
+      // 1. Optimize image client-side to prevent cloud container memory swapping
+      const { file: uploadFile, meta: optimizationMeta } =
+        await optimizeImageForInference(imageFile, 1280, 0.85);
+      setOptMeta(optimizationMeta);
+
       const formData = new FormData();
-      formData.append("file", imageFile);
+      formData.append("file", uploadFile);
 
       // Invoke real YOLO backend endpoint
       const response = await fetch(`${API_BASE}/predict`, {
@@ -420,6 +431,22 @@ export const DamageAnalyzer: React.FC<DamageAnalyzerProps> = ({
                     );
                   })}
               </div>
+
+              {optMeta && (
+                <div className="flex flex-wrap items-center justify-between gap-2 px-3.5 py-2 rounded-xl bg-slate-100/70 dark:bg-slate-900/60 border border-slate-200/80 dark:border-slate-800 text-[11px] font-mono text-slate-500 dark:text-slate-400">
+                  <span className="flex items-center gap-1.5 flex-wrap">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                    <span className="font-semibold text-slate-700 dark:text-slate-300">Client Optimization:</span>
+                    <span>{optMeta.originalSizeFormatted} ({optMeta.originalWidth}×{optMeta.originalHeight})</span>
+                    <span>&rarr;</span>
+                    <span className="text-emerald-600 dark:text-emerald-400 font-semibold">{optMeta.optimizedSizeFormatted} ({optMeta.optimizedWidth}×{optMeta.optimizedHeight})</span>
+                    {optMeta.wasResized && (
+                      <span className="text-slate-400">({optMeta.compressionRatioPct > 0 ? `-${optMeta.compressionRatioPct}%` : '0%'} payload)</span>
+                    )}
+                  </span>
+                  <span className="text-slate-400">prep: {optMeta.durationMs}ms</span>
+                </div>
+              )}
             </div>
           )}
 
